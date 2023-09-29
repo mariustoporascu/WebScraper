@@ -1,6 +1,8 @@
 ## Dependencies
 ```
 dotnet sdk 8
+nodejs
+npm
 docker
 docker-compose
 ```
