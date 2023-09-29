@@ -1,0 +1,50 @@
+version: '3.7'
+
+name: webscraper
+
+services:
+    webscraperapi:
+        build:
+            context: ..
+            dockerfile: ./docker/Dockerfile.Api
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Staging
+            - ASPNETCORE_HTTP_PORTS=80
+        ports:
+            - "8080:80"
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
+            selenium:
+                condition: service_healthy
+
+    selenium:
+        image: selenium/standalone-chrome:latest
+        healthcheck:
+            test: ["CMD", "curl", "-s", "http://localhost:4444"]
+            interval: 10s
+            timeout: 10s
+            retries: 5
+        ports:
+            - "4444:4444"
+
+    rabbitmq:
+        image: rabbitmq:management
+        healthcheck:
+            test: ["CMD", "rabbitmqctl", "status"]
+            interval: 10s
+            timeout: 10s
+            retries: 10
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+    
+    webscraperui:
+        build:
+            context: ..
+            dockerfile: ./docker/Dockerfile.UI
+        ports:
+            - "3000:3000"

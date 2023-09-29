@@ -1,0 +1,22 @@
+# Use the official Node.js image
+FROM node:18-alpine
+EXPOSE 3000
+
+# Set the working directory
+WORKDIR /app
+
+# Install Svelte CLI globally
+RUN npm install --global svelte
+
+# Install app dependencies
+COPY /src/WebScraperUI/package*.json ./
+RUN npm install
+
+# Copy the source code into the container
+COPY /src/WebScraperUI .
+
+# Build the Svelte app
+RUN npm run build
+
+# Serve the app
+CMD ["npm", "run", "preview"]
