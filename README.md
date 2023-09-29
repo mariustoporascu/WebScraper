@@ -1,8 +1,9 @@
 ## Dependencies
+```
 dotnet sdk 8
 docker
 docker-compose
-
+```
 ## Build
 
 Run `dotnet build` to build the solution.
@@ -37,7 +38,9 @@ dotnet run -c Release
 
 ## API Documentation
 IF you run using docker-compose
+```
 Api URL: http://localhost:8080
 UI URL: http://localhost:3000
 RabbitMQ: http://localhost:15672
 Selenium Hub: http://localhost:4444
+```
